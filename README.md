@@ -2,6 +2,11 @@
 
 React MySQL pet app project. React pet website application tutorial for beginners. Create a full-stack app using React, Node.js, and MySQL.
 
+## Table of Contents
+
+[Contents](#contents)
+[Use-case diagram](#Use-case-diagram)
+
 ## Contents
  - React Page Design
  - Use JWT to Login
@@ -12,5 +17,10 @@ React MySQL pet app project. React pet website application tutorial for beginner
  - Upload a File to Server
  - Create and Update Post
 
+## Use-case diagram
+
+Not update yet...
+
 ## Development
-Run command `npm start`in `./client` and `./api` folder.
+Run command `npm start` in `./client` and `./api` folder.
+Access [http://localhost:3000/](http://localhost:3000/).

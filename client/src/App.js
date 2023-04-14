@@ -11,12 +11,14 @@ import Single from "./pages/Single";
 import Write from "./pages/Write";
 import Blog from "./pages/Blogs";
 import Shop from "./pages/Shop";
+import Service from "./pages/Service";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import FooterAnimal from "./components/FooterAnimal";
 import NavbarAnimal from "./components/NavbarAnimal";
 
 import "./style.scss";
+
 
 const Layout = ()=>{
   return (
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
       {
         path:"/shop",
         element: <Shop/>
+      },
+      {
+        path:"/service",
+        element: <Service/>
       },
     ]
   },

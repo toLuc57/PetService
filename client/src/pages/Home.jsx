@@ -24,6 +24,14 @@ const Home = () => {
     return (
         <div className="home">
             <div className="container">
+                <div className="header">
+                    <div className="title">
+                        <h1>React & Nodejs</h1>
+                    </div>
+                    <div className="img">
+                        <img src="https://images.pexels.com/photos/12106763/pexels-photo-12106763.jpeg?auto=compress&bri=5&cs=tinysrgb&fit=crop&h=500&w=2500" alt="" />
+                    </div>
+                </div>
                 {items.map(item => (
                     <div className="item" key={item.id}>
                         <div className="img">
