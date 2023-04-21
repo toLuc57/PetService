@@ -1,11 +1,38 @@
 import React from "react";
 
-
 const Service =()=>{
+    const attributes = [
+        "Lông ngắn",
+        "Lông dài"
+    ]
+
+    const items = [{
+        id: 1,
+        name: "Dịch vụ tắm spa",
+        attributes: {
+            "Lông ngắn": 100,
+            "Lông dài": 140
+        },           
+        weight: "5",
+    },    
+    {
+        id: 2,
+        name: "Dịch vụ tắm spa",
+        attributes: {
+            "Lông ngắn": 150,
+            "Lông dài": 200
+        },
+        weight: "10",
+    },
+    ];
+
+    // const getText = (html)=>{
+    //     const doc = new DOMParser().parseFromString(html, "text/html");
+    //     return doc.body.textContent;        
+    // }
 
     return(
-        <div className="service">
-            
+        <div className="service">            
             <div className="content">
                 <div className="title">
                     <h1>TẠI SAO NÊN THƯỜNG XUYÊN TẮM VỆ SINH & CẮT TỈA LÔNG CHO THÚ CƯNG ?</h1>
@@ -29,8 +56,41 @@ const Service =()=>{
             </div>
             <div className="cost">
                 <h1>Bảng giá dịch vụ</h1>
-                <img src="https://w.ladicdn.com/s1300x1100/5fffa60b5f0dcb001234da20/bang-giapc-20220323014558.jpg" alt="" />
-            </div>
+                <div className="table">
+                    <table>
+                    <tr>
+                        <th>Chó</th>
+                        {attributes.map(attribute => (
+                            <th>{attribute}</th>
+                        ))}
+                    </tr>
+                    {items.map(item => (
+                        <tr>
+                            <td>&lt;{item.weight}kg</td>
+                            {attributes.map(attribute => (
+                                <td>{item.attributes[`${attribute}`]}.000đ</td>
+                            ))}
+                        </tr>
+                    ))}                
+                    </table>
+                    <table>
+                    <tr>
+                        <th>Mèo</th>
+                        {attributes.map(attribute => (
+                            <th>{attribute}</th>
+                        ))}
+                    </tr>
+                    {items.map(item => (
+                        <tr>
+                            <td>&lt;{item.weight}kg</td>
+                            {attributes.map(attribute => (
+                                <td>{item.attributes[`${attribute}`]}.000đ</td>
+                            ))}
+                        </tr>
+                    ))}                
+                    </table>
+                </div>
+            </div>            
         </div>
     )
 }
