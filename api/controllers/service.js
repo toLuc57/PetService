@@ -15,7 +15,7 @@ export const getServices = (req, res) => {
 
 export const getService = (req, res) => {
   const q =
-    "SELECT *services WHERE id = ? ";
+    "SELECT * FROM services WHERE id = ? ";
 
   db.query(q, [req.params.id], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -25,10 +25,10 @@ export const getService = (req, res) => {
 };
 
 export const addService = (req, res) => {
-  const token = req.cookies.access_token;
+  const token = req.cookies.admin_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
+  jwt.verify(token, "jwtkey", (err, adminInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q =
@@ -51,18 +51,18 @@ export const addService = (req, res) => {
 };
 
 export const deleteService = (req, res) => {
-  const token = req.cookies.access_token;
+  const token = req.cookies.admin_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
+  jwt.verify(token, "jwtkey", (err, adminInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
-    const q = "DELETE FROM services WHERE `id` = ? AND `uid` = ?";
+    const q = "DELETE FROM services WHERE `id` = ?";
 
-    db.query(q, [postId, userInfo.id], (err, data) => {
+    db.query(q, [postId], (err, data) => {
       if (err || data.affectedRows == 0) {
-        return res.status(403).json("You can delete only your post!");
+        return res.status(403).json(err);
       }
       return res.json("Service has been deleted!");
     });
@@ -70,18 +70,25 @@ export const deleteService = (req, res) => {
 };
 
 export const updateService = (req, res) => {
-  const token = req.cookies.access_token;
+  const token = req.cookies.admin_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
+  jwt.verify(token, "jwtkey", (err, adminInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const postId = req.params.id;
     const q =
-      "UPDATE services SET `title`=?,`desc`=?,`img`=?,`cat`=? WHERE `id` = ? AND `uid` = ?";
+      "UPDATE services SET `name`=?,`desc`=?,`img`=?,`cat`=?,`requirement` =?,`status`=? WHERE `id` = ?";
 
-    const values = [req.body.title, req.body.desc, req.body.img, req.body.cat];
-    db.query(q, [...values, postId, userInfo.id], (err, data) => {
+    const values = [
+      req.body.name, 
+      req.body.desc, 
+      req.body.img, 
+      req.body.cat, 
+      req.body.requirement, 
+      req.body.status
+    ];
+    db.query(q, [...values, postId], (err, data) => {
       if (err || data.affectedRows == 0) return res.status(500).json(err);
       return res.json("Service has been updated.");
     });

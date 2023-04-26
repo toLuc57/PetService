@@ -1,7 +1,10 @@
-import express from "express"
+import express from "express";
+import { login, logout, updateAdmin } from "../controllers/admin.js";
 
-const router = express.Router()
+const router = express.Router();
 
-//TODO
+router.post("/login", login);
+router.post("/logout", logout);
+router.put("/", updateAdmin);
 
 export default router;

@@ -26,6 +26,7 @@ const Navbar = () => {
           <Link className="link" to="/posts">
             <h6>BLOG</h6>
           </Link>
+          |
           <span>{currentUser?.username}</span>
           {currentUser ? 
             (<span onClick={logout}>Logout</span>) : 

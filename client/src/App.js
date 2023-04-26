@@ -11,11 +11,15 @@ import Single from "./pages/Single";
 import Write from "./pages/Write";
 import Blog from "./pages/Blogs";
 import Shop from "./pages/Shop";
-import Service from "./pages/Service";
+import Services from "./pages/Services";
+import Admin from "./pages/Admin";
+import AdminLogin from "./pages/AdminLogin";
+import SingleService from "./pages/SingleService";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import FooterAnimal from "./components/FooterAnimal";
 import NavbarAnimal from "./components/NavbarAnimal";
+import NavbarAdmin from "./components/NavbarAdmin";
 
 import "./style.scss";
 
@@ -40,6 +44,16 @@ const LayoutAnimal = ()=>{
   )
 }
 
+const LayoutAdmin = ()=>{
+  return (
+    <>
+      <NavbarAdmin/>
+      <Outlet/>
+      <FooterAnimal/>
+    </> 
+  )
+}
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -55,7 +69,7 @@ const router = createBrowserRouter([
       },
       {
         path:"/service",
-        element: <Service/>
+        element: <Services/>
       },
     ]
   },
@@ -74,6 +88,24 @@ const router = createBrowserRouter([
       {
         path: "/write",
         element: <Write/>,
+      },
+    ]
+  },
+  {
+    path: "/admin",
+    element: <LayoutAdmin/>,
+    children:[
+      {
+        path:"/admin",
+        element:<Admin/>
+      },
+      {
+        path:"/admin/login",
+        element:<AdminLogin/>
+      },
+      {
+        path:"/admin/services/:id",
+        element:<SingleService/>
       },
     ]
   },

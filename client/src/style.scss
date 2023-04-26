@@ -125,11 +125,11 @@ $lightGreen: #b9e7e7;
             .img{
                 display: flex;
                 flex-direction: column;
-                gap: 30px;
+                gap: 15px;
 
                 img{
                     width: 100%;
-                    height: 400px;
+                    height: 300px;
                     object-fit: cover;
                 }
             }
@@ -156,10 +156,116 @@ $lightGreen: #b9e7e7;
                 margin-top: 50px;
                 display: flex;
                 flex-direction: column;                
-                gap: 150px;
+                gap: 55px;
 
                 .item{
                     display: flex;
+                    gap: 30px;
+
+                    .img{
+                        flex: 2;
+                        position: relative;
+
+                        img{
+                            width: 100%;
+                            height: 350px;
+                            object-fit: cover;
+                        }
+                    }
+
+                    .content {
+                        flex: 3;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        h1{
+                            font-size: 48px;
+                        }
+
+                        p{
+                            font-size: 18px;
+                        }
+
+                        button{
+                            width: max-content;
+                            padding: 10px 20px;
+                            border: none;
+                            cursor: pointer;
+                            background-color: white;
+                            border: 1px solid $lightGreen;
+                            color: teal;
+
+                            &:hover{
+                                border: 1px solid white;
+                                background-color: $lightGreen;
+                                color: black;
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //SERVICE
+        .service{
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .content{
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                background-color: $lightGreen;
+                // background-color:  hsla(213, 86%, 23%, 0.42);
+                
+                .title{                   
+                    margin: 15px;
+                    flex: 1;
+                    h1{
+                        text-transform: uppercase;
+                        color: hsla(233, 81%, 15%, 0.7);
+                        font-size: 26px;
+                        font-weight: bold;
+                    }
+                }
+
+                .desc{
+                    flex: 3;
+                    display: flex;
+                    flex-direction: column;
+                    
+                    ol{
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
+
+                        li{
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+
+            .cost{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;                
+
+                h1{
+                    text-transform: uppercase;
+                    font-size: 26px;
+                    font-weight: bold;
+                }
+                
+                .item{
+                    display: flex;
+                    background-color: $lightGreen;
+                    width: 100%;
                     gap: 30px;
 
                     .img{
@@ -205,90 +311,6 @@ $lightGreen: #b9e7e7;
                         }
                     }
                 }
-            }
-        }
-
-        //SERVICE
-        .service{
-            margin-top: 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 150px;
-
-            .content{
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-                background-color:  hsla(213, 86%, 23%, 0.42);
-                
-                .title{                   
-                    margin: 15px;
-                    flex: 1;
-                    h1{
-                        text-transform: uppercase;
-                        color: white;
-                        font-size: 26px;
-                        font-weight: bold;
-                    }
-                }
-
-                .desc{
-                    flex: 3;
-                    display: flex;
-                    flex-direction: column;
-                    
-                    ol{
-                        display: flex;
-                        flex-direction: column;
-                        gap: 20px;
-
-                        li{
-                            font-weight: 600;
-                            color: white;
-                        }
-                    }
-                }
-            }
-
-            .cost{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-
-                h1{
-                   font-size: 26px;
-                   font-weight: 300; 
-                }
-
-                img{
-                    width: 100%;
-                    height: 50%;
-                }
-                .table {
-                    display: flex;
-                    flex-direction: row;
-                    gap: 10px;
-                    table {
-                        border-collapse: collapse;
-                        width: 50%;
-    
-                        td, th{
-                            border: 1px solid #ddd;
-                            padding: 8px;
-                        }
-                        tr:nth-child(even){background-color: #f2f2f2;}
-                        tr:hover {background-color: #ddd;}
-                        th {
-                            padding-top: 12px;
-                            padding-bottom: 12px;
-                            text-align: left;
-                            background-color: #04AA6D;
-                            color: white;
-                        }              
-                    }
-                }
-                
             }
         }
 
