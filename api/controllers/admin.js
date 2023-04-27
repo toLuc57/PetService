@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 export const login = (req, res) => {
   //CHECK ADMIN
-
   const q = "SELECT * FROM admins WHERE username = ?";
 
   db.query(q, [req.body.username], (err, data) => {
@@ -59,4 +58,24 @@ export const updateAdmin = (req, res) => {
       return res.json("Admin has been updated.");
     });
   });
+};
+
+export const getUsers = (req, res) => {
+  
+};
+
+export const getUser = (req, res) => {
+  
+};
+
+export const addUser = (req, res) => {
+  
+};
+
+export const putUser = (req, res) => {
+  
+};
+
+export const deleteUser = (req, res) => {
+  
 };

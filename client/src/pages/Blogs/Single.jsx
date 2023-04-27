@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Menu from "../components/Menu"
-import Edit from "../img/edit.png";
-import Delete from "../img/delete.png";
+import Menu from "../../components/Menu"
+import Edit from "../../img/edit.png";
+import Delete from "../../img/delete.png";
 import axios from "axios";
 import moment from "moment";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../../context/authContext";
 
 const Single = () => {    
     const [post, setPost] = useState({});

@@ -7,19 +7,15 @@ import {
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Single from "./pages/Single";
-import Write from "./pages/Write";
-import Blog from "./pages/Blogs";
-import Shop from "./pages/Shop";
-import Services from "./pages/Services";
-import Admin from "./pages/Admin";
-import AdminLogin from "./pages/AdminLogin";
-import SingleService from "./pages/SingleService";
+import Single from "./pages/Blogs/Single";
+import Write from "./pages/Blogs/Write";
+import Blog from "./pages/Blogs/Blogs";
+import Shop from "./pages/Shop/Shop";
+import Services from "./pages/Services/Services";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import FooterAnimal from "./components/FooterAnimal";
 import NavbarAnimal from "./components/NavbarAnimal";
-import NavbarAdmin from "./components/NavbarAdmin";
 
 import "./style.scss";
 
@@ -88,24 +84,6 @@ const router = createBrowserRouter([
       {
         path: "/write",
         element: <Write/>,
-      },
-    ]
-  },
-  {
-    path: "/admin",
-    element: <LayoutAdmin/>,
-    children:[
-      {
-        path:"/admin",
-        element:<Admin/>
-      },
-      {
-        path:"/admin/login",
-        element:<AdminLogin/>
-      },
-      {
-        path:"/admin/services/:id",
-        element:<SingleService/>
       },
     ]
   },
