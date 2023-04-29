@@ -10,7 +10,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 
 const Navbar = () => {
-  const { dispatch } = useContext(DarkModeContext);
+  const { dispatch, currentAdmin } = useContext(DarkModeContext);
 
   return (
     <div className="navbar">

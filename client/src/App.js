@@ -40,16 +40,6 @@ const LayoutAnimal = ()=>{
   )
 }
 
-const LayoutAdmin = ()=>{
-  return (
-    <>
-      <NavbarAdmin/>
-      <Outlet/>
-      <FooterAnimal/>
-    </> 
-  )
-}
-
 const router = createBrowserRouter([
   {
     path: "/",
