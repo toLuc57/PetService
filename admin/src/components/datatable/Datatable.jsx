@@ -1,13 +1,12 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { 
-  userColumns, 
-  userRows, 
-  serviceColumns, 
-  serviceRows } 
+  userColumns,
+  serviceColumns, } 
   from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Datatable = ({type}) => {
   const [data, setData] = useState([]);
@@ -41,22 +40,28 @@ const Datatable = ({type}) => {
   ];
 
   useEffect(() => {
-    switch(type){
-      case 'users':
-        setColumns(userColumns.concat(actionColumn));
-        setData(userRows);  
-        break;
-      case 'services':
-        setColumns(serviceColumns.concat(actionColumn));
-        setData(serviceRows);  
-        break;
-      case 'products':
-        setColumns(userColumns.concat(actionColumn));
-        setData([]);
-        break;
-      default:
-        break;
+    const fetchData = async()=>{
+      switch(type){
+        case 'users':
+          setColumns(userColumns.concat(actionColumn));
+          var res = await axios.get("users");
+          setData(res.data);
+          break;
+        case 'services':
+          setColumns(serviceColumns.concat(actionColumn));
+          var res = await axios.get("services");
+          setData(res.data);  
+          break;
+        case 'products':
+          setColumns(userColumns.concat(actionColumn));
+          var res = await axios.get("services");
+          setData(res.data);
+          break;
+        default:
+          break;
+      }
     }
+    fetchData();
   }, [type]);
 
   let db;
