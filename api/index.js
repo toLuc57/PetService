@@ -3,6 +3,8 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import postRoutes from "./routes/post.js";
 import serviceRoutes from "./routes/service.js";
+import revenueRoutes from "./routes/revenue.js";
+import orderRoutes from "./routes/order.js";
 import adminRoutes from "./routes/admin.js";
 import cookieParser from "cookie-parser";
 import multer from "multer";
@@ -32,7 +34,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/revenue", revenueRoutes);
+app.use("/api/orders", orderRoutes);
 
 app.listen(8800, () => {
   console.log("Connected!");
