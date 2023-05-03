@@ -29,7 +29,7 @@ const Single = () => {
         fetchData();
     }, [postId]);
 
-    const handDelete = async() => {
+    const handleDelete = async() => {
         try {
             await axios.delete(`/posts/${postId}`);
             navigate("/"); 
@@ -61,7 +61,7 @@ const Single = () => {
                         <Link to={`/write?edit=2`} state={post}>
                             <img src={Edit} alt="" />
                         </Link>      
-                        <img onClick={handDelete} src={Delete} alt="" />
+                        <img onClick={handleDelete} src={Delete} alt="" />
                     </div>
                     )}
                 </div>

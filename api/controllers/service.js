@@ -57,10 +57,10 @@ export const deleteService = (req, res) => {
   jwt.verify(token, "jwtkey", (err, adminInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const postId = req.params.id;
-    const q = "DELETE FROM services WHERE `id` = ?";
+    const id = req.params.id;
+    const q = "UPDATE services SET `status` = (`status` + 1) % 2 WHERE `id` = ?";
 
-    db.query(q, [postId], (err, data) => {
+    db.query(q, [id], (err, data) => {
       if (err || data.affectedRows == 0) {
         return res.status(403).json(err);
       }

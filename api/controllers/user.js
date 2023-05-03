@@ -1,4 +1,5 @@
 import { db } from "../db.js";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const getUsers = (req, res) => {
@@ -23,32 +24,6 @@ export const getUser = (req, res) => {
   });
 };
 
-export const addUser = (req, res) => {
-  const token = req.cookies.access_token;
-  if (!token) return res.status(401).json("Not authenticated!");
-
-  jwt.verify(token, "jwtkey", (err, userInfo) => {
-    if (err) return res.status(403).json("Token is not valid!");
-
-    const q =
-      "INSERT INTO users(`name`, `username`, `email`, `status`, `date`,`uid`) VALUES (?)";
-
-    const values = [
-      req.body.title,
-      req.body.desc,
-      req.body.img,
-      req.body.status,
-      req.body.date,
-      userInfo.id,
-    ];
-    
-    db.query(q, [values], (err, data) => {
-      if (err || data.affectedRows == 0) return res.status(500).json(err);
-      return res.json("User has been created.");
-    });
-  });
-};
-
 export const deleteUser = (req, res) => {
   const token = req.cookies.access_token;
   if (!token) return res.status(401).json("Not authenticated!");
@@ -57,7 +32,7 @@ export const deleteUser = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const userId = req.params.id;
-    const q = "DELETE FROM users WHERE `id` = ? AND `uid` = ?";
+    const q = "";
 
     db.query(q, [userId, userInfo.id], (err, data) => {
       if (err || data.affectedRows == 0) {
@@ -75,32 +50,31 @@ export const updateUser = (req, res) => {
   jwt.verify(token, "jwtkey", (err, userInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
-    const userId = req.params.id;
-    const q =
-      "UPDATE users SET `title`=?,`desc`=?,`img`=?,`status`=? WHERE `id` = ?";
+    const q = "SELECT * FROM users WHERE `id` = ?";
 
-    const values = [req.body.title, req.body.desc, req.body.img, req.body.status];
-    db.query(q, [...values, userId, userInfo.id], (err, data) => {
-      if (err || data.affectedRows == 0) return res.status(500).json(err);
-      return res.json("User has been updated.");
-    });
-  });
-};
+    db.query(q, [userInfo.id], (err, data) => {
+      if (err) return res.status(500).json(err);
+      if (data.length === 0) return res.status(404).json("User not found!");
+      //Check password
+      const isPasswordCorrect = bcrypt.compareSync(
+        req.body.oldPassword,
+        data[0].password
+      );
+      if (!isPasswordCorrect)
+      return res.status(400).json("Wrong username or password!");
 
-export const updateUserStatus = (req, res) => {
-    const token = req.cookies.admin_token;
-    if (!token) return res.status(401).json("Not authenticated!");
-  
-    jwt.verify(token, "jwtkey", (err, userInfo) => {
-      if (err) return res.status(403).json("Token is not valid!");
+      const salt = bcrypt.genSaltSync(10);
+      const hash = bcrypt.hashSync(req.body.newPasword, salt);
+
       const userId = req.params.id;
       const q =
-        "UPDATE users SET `title`=?,`desc`=?,`img`=?,`status`=? WHERE `id` = ?";
-  
-      const values = [req.body.title, req.body.desc, req.body.img, req.body.status];
+        "UPDATE users SET `name`=?,`password`=?,`img`=? WHERE `id` = ?";
+
+      const values = [req.body.name, hash, req.body.img, userInfo.id];
       db.query(q, [...values, userId, userInfo.id], (err, data) => {
         if (err || data.affectedRows == 0) return res.status(500).json(err);
         return res.json("User has been updated.");
       });
-    });
-  };
+    });    
+  });
+};

@@ -4,7 +4,7 @@ import {
   userColumns,
   serviceColumns, } 
   from "../../datatablesource";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -12,10 +12,16 @@ const Datatable = ({type}) => {
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  const navigate = useNavigate();
 
+  const handleDelete = async(id) => {
+    try {
+        await axios.delete(`/${type}/${id}`);
+        window.location.reload()
+    } catch (error) {
+        console.log(error);
+    }
+}
   const actionColumn = [
     {
       field: "action",
@@ -24,14 +30,14 @@ const Datatable = ({type}) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/users/test" style={{ textDecoration: "none" }}>
+            <Link to={`/${type}/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              Delete
+              Change status
             </div>
           </div>
         );
@@ -44,24 +50,20 @@ const Datatable = ({type}) => {
       switch(type){
         case 'users':
           setColumns(userColumns.concat(actionColumn));
-          var res = await axios.get("users");
-          setData(res.data);
           break;
         case 'services':
           setColumns(serviceColumns.concat(actionColumn));
-          var res = await axios.get("services");
-          setData(res.data);  
           break;
         case 'products':
-          setColumns(userColumns.concat(actionColumn));
-          var res = await axios.get("services");
-          setData(res.data);
+          setColumns(serviceColumns.concat(actionColumn));          
           break;
         default:
           break;
       }
+      var res = await axios.get(`${type}`);
+      setData(res.data);
     }
-    fetchData();
+    fetchData();    
   }, [type]);
 
   let db;
@@ -87,6 +89,8 @@ const Datatable = ({type}) => {
     default:
       break;
   }
+
+  console.log(data);
 
   return (
     <div className="datatable">
