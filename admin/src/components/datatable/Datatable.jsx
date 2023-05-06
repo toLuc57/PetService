@@ -2,9 +2,9 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { 
   userColumns,
-  serviceColumns, } 
+  serviceColumns } 
   from "../../datatablesource";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -12,12 +12,11 @@ const Datatable = ({type}) => {
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
 
-  const navigate = useNavigate();
-
   const handleDelete = async(id) => {
     try {
         await axios.delete(`/${type}/${id}`);
-        window.location.reload()
+        setData()
+        // window.location.reload()
     } catch (error) {
         console.log(error);
     }
@@ -30,9 +29,9 @@ const Datatable = ({type}) => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={`/${type}/${params.row.id}`} style={{ textDecoration: "none" }}>
+            {/* <Link to={`/${type}/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
-            </Link>
+            </Link> */}
             <div
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
@@ -63,7 +62,8 @@ const Datatable = ({type}) => {
       var res = await axios.get(`${type}`);
       setData(res.data);
     }
-    fetchData();    
+    fetchData();
+
   }, [type]);
 
   let db;
