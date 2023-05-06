@@ -12,7 +12,7 @@ const Blog = () => {
         const fetchData = async ()=> {
             try {
                 const res = await axios.get(`/posts${cat}`);
-                setPosts(res.data);                
+                setPosts(res.data);
             } catch (error) {
                 console.log(error);
             }

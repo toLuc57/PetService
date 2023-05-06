@@ -30,7 +30,7 @@ const Navbar = () => {
               onClick={() => dispatch({ type: "TOGGLE" })}
             />
           </div>
-          <div className="item">
+          {/* <div className="item">
             <FullscreenExitOutlinedIcon className="icon" />
           </div>
           <div className="item">
@@ -43,7 +43,7 @@ const Navbar = () => {
           </div>
           <div className="item">
             <ListOutlinedIcon className="icon" />
-          </div>
+          </div> */}
           <div className="item">
             <img
               src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"

@@ -15,8 +15,7 @@ const Datatable = ({type}) => {
   const handleDelete = async(id) => {
     try {
         await axios.delete(`/${type}/${id}`);
-        setData()
-        // window.location.reload()
+        window.location.reload()
     } catch (error) {
         console.log(error);
     }
@@ -63,7 +62,6 @@ const Datatable = ({type}) => {
       setData(res.data);
     }
     fetchData();
-
   }, [type]);
 
   let db;

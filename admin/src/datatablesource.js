@@ -7,6 +7,8 @@ export const userColumns = [
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
+          <img className="cellImg" src={params.row.img != null ? params.row.img : "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"} 
+          alt="avatar" />
           {params.row.username}
         </div>
       );
@@ -16,6 +18,13 @@ export const userColumns = [
     field: "name",
     headerName: "Full name",
     width: 230,
+    renderCell: (params) => {
+      return (
+        <div >
+          {params.row.name}
+        </div>
+      );
+    },
   },
   {
     field: "email",
@@ -28,8 +37,8 @@ export const userColumns = [
     width: 160,
     renderCell: (params) => {
       return (
-        <div className={`cellWithStatus ${params.row.status === "1" ? "active" : "passive"}`}>
-          {params.row.status === "1" ? "active" : "passive"}
+        <div className={`cellWithStatus ${params.row.status == 1 ? "active" : "passive"}`}>
+          {params.row.status == 1 ? "active" : "passive"}
         </div>
       );
     },
@@ -141,19 +150,18 @@ export const serviceColumns = [
     headerName: "Requirement",
     width: 230,
   },
-
-  {
-    field: "weight",
-    headerName: "Weight",
-    width: 100,
-    renderCell: (params) => {
-      return (
-        <div className="cellWithWei">
-          <span className="value">{params.row.weight} kg</span>
-        </div>
-      );
-    },
-  },
+  // {
+  //   field: "weight",
+  //   headerName: "Weight",
+  //   width: 100,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className="cellWithWei">
+  //         <span className="value">{params.row.weight} kg</span>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     field: "status",
     headerName: "Status",

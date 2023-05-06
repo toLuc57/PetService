@@ -1,46 +1,75 @@
-.auth {
+.login {
+    height: 100vh;
+    background-color: rgb(193, 190, 255);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: lightblue;
-    height: 100vh;
-
-    h1 {
-        font-size: 20px;
-        color: teal;
-        margin-bottom: 20px;
-    }
-
-    form {
+  
+    .card {
+      width: 50%;
+      min-width: 400px;
+      display: flex;
+      background-color: white;
+      border-radius: 10px;
+      min-height: 300px;
+      overflow: hidden;
+  
+      .left {
+        flex: 1;
+        background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
+          url("https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600")
+            center;
+        background-size: cover;
+        padding: 50px;
         display: flex;
         flex-direction: column;
-        padding: 50px;
-        background-color: lightblue;
-        width: 200px;
-        gap: 20px;
-    }
-
-    input {
-        padding: 20px;
-        border: none;
-        border-bottom: 1px solid gray;
-    }
-
-    button {
-        padding: 10px;
-        border: none;
-        background-color: teal;
+        gap: 30px;
         color: white;
-        cursor: pointer;
+  
+        h1 {
+          font-size: 30px;
+          line-height: 100px;
+        }
+      }
+  
+      .right {
+        flex: 1;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
+        justify-content: center;
+
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 30px;
+
+          h1 {
+            font-size: 30px;
+            line-height: 100px;
+          }
+          
+          input {
+          border: none;
+          border-bottom: 1px solid lightgray;
+          padding: 20px 10px;
+          }
+          
+          button {
+            width: 50%;
+            padding: 10px;
+            border: none;
+            background-color: #938eef;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+          }
+
+          p{
+
+          }
+        }
+      }
     }
-    p {
-        font-size: 12px;
-        text-align: center;
-        color: red;
-    }
-    span {
-        font-size: 12px;
-        text-align: center;
-    }
-}
+  }

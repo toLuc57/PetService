@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import "./chart.scss";
 import {
   AreaChart,
@@ -9,16 +11,30 @@ import {
   YAxis,
 } from "recharts";
 
-const data = [
-  { name: "January", Total: 1200 },
-  { name: "February", Total: 2100 },
-  { name: "March", Total: 800 },
-  { name: "April", Total: 1600 },
-  { name: "May", Total: 900 },
-  { name: "June", Total: 1700 },
-];
+// const data = [
+//   { name: "January", Total: 1200 },
+//   { name: "February", Total: 2100 },
+//   { name: "March", Total: 800 },
+//   { name: "April", Total: 1600 },
+//   { name: "May", Total: 900 },
+//   { name: "June", Total: 1700 },
+// ];
 
 const Chart = ({ aspect, title }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(()=>{
+    const fetchData = async ()=> {
+        try {
+            const res = await axios.get(`/revenue`);
+            setData(res.data);                
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="chart">
       <div className="title">{title}</div>
@@ -35,7 +51,7 @@ const Chart = ({ aspect, title }) => {
               <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" stroke="gray" />
+          <XAxis dataKey="Month" stroke="gray" />
           <YAxis/>
           <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
           <Tooltip />

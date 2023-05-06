@@ -8,7 +8,7 @@ export const login = (req, res) => {
 
   db.query(q, [req.body.username], (err, data) => {
     if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json("Admin" + req.body.username + "not found! ");
+    if (data.length === 0) return res.status(404).json("Admin " + req.body.username + " not found! ");
 
     //Check password
     const isPasswordCorrect = bcrypt.compareSync(

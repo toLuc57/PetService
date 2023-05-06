@@ -31,14 +31,21 @@ const Login = () => {
   };
 
   return (
-      <div className="auth">
-      <h1>Login for Admin</h1>
-      <form>
-            <input type="text" placeholder="username" name="username" onChange={handleChange}/>
-            <input type="password" placeholder="password" name="password" onChange={handleChange}/>
-            <button onClick={handleSubmit}>Login</button>
-            {err && <p>{err}</p>}
-        </form>
+      <div className="login">
+        <div className="card">
+            <div className="left">
+                
+            </div>
+            <div className="right">
+                <h1>Login</h1>
+                <form>
+                    <input type="text" placeholder="username" name="username" onChange={handleChange}/>
+                    <input type="password" placeholder="password" name="password" onChange={handleChange}/>
+                    <button onClick={handleSubmit}>Login</button>
+                    {err && <p>{err}</p>}
+                </form>
+            </div>
+        </div>      
       </div>
   )
 };

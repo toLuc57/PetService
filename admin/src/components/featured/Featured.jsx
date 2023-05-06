@@ -4,8 +4,24 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Featured = () => {
+  const [data, setData] = useState({});
+
+  useEffect(()=>{
+    const fetchData = async ()=> {
+      try {
+          const res = await axios.get(`/revenue/today`);
+          setData(res.data);                
+      } catch (error) {
+          console.log(error);
+      }
+  }
+  fetchData();
+  },[])
+
   return (
     <div className="featured">
       <div className="top">
@@ -17,8 +33,8 @@ const Featured = () => {
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
         </div>
         <p className="title">Total sales made today</p>
-        <p className="amount">$420</p>
-        <p className="desc">
+        <p className="amount">${data.Total ? data.Total : 0}</p>
+        {/* <p className="desc">
           Previous transactions processing. Last payments may not be included.
         </p>
         <div className="summary">
@@ -43,7 +59,7 @@ const Featured = () => {
               <div className="resultAmount">$12.4k</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

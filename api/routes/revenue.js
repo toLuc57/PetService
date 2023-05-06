@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.get("/", getRevenues);
-router.get("/:year", getRevenue);
+router.get("/today", getRevenue);
 
 export default router;
