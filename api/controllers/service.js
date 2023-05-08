@@ -2,11 +2,11 @@ import { db } from "../db.js";
 import jwt from "jsonwebtoken";
 
 export const getServices = (req, res) => {
-  const q = req.query.cat
-    ? "SELECT * FROM services WHERE cat=?"
+  const q = req.query.status
+    ? "SELECT * FROM services WHERE status=?"
     : "SELECT * FROM services";
     
-  db.query(q, [req.query.cat], (err, data) => {
+  db.query(q, [req.query.status], (err, data) => {
     if (err) return res.status(500).send(err);
 
     return res.status(200).json(data);
@@ -14,13 +14,25 @@ export const getServices = (req, res) => {
 };
 
 export const getService = (req, res) => {
+  let result;
   const q =
     "SELECT * FROM services WHERE id = ? ";
-
-  db.query(q, [req.params.id], (err, data) => {
+  db.query(q, [req.params.id], (err, dataService) => {
     if (err) return res.status(500).json(err);
+    if (dataService.affectedRows == 0) return res.status(500).json("Not found!");
     
-    return res.status(200).json(data[0]);
+    result = dataService[0];
+    const qValue = 
+      "SELECT attr.name as `name`, attr_v.price as `price`, attr_v.size as `weight` " +
+      "from attribute_value as attr_v JOIN attribute as attr " +
+      "ON attr_v.attribute_id = attr.id where service_id = ?";
+
+    db.query(qValue, [req.params.id], (err, dataValues) =>{
+      if (err) return res.status(500).json(err);
+      result.attr = dataValues;
+      return res.status(200).json(result);  
+    });
+        
   });
 };
 
@@ -45,7 +57,21 @@ export const addService = (req, res) => {
     
     db.query(q, [values], (err, data) => {
       if (err || data.affectedRows == 0) return res.status(500).json(err);
-      return res.json("Service has been created.");
+      const id = data.insertId;
+      const qItem = "INSERT INTO attribute_value(`service_id`, `attribute_id`, `price`, `size`) VALUES (?)";
+      for(var item of req.body.items){
+        const item_values = [
+          id,
+          item.attribute_id,
+          item.price,
+          item.size
+        ];
+
+        db.query(qItem, [item_values], (err, data) => {
+          if (err || data.affectedRows == 0) return res.status(500).json(err);
+          return res.status(201).json("Service has been created."); 
+        })
+      }
     });
   });
 };

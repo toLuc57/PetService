@@ -18,6 +18,7 @@ export const getOrder = (req, res) => {
 
     db.query(qOrder, [req.params.id], (err, data) => {
       if (err) return res.status(500).json(err);
+      if (data.affectedRows == 0) return res.status(500).json("Not found!");
       result = data[0];
       const qOrderItems =
       "select * from order_items where order_id = ?";
@@ -45,7 +46,7 @@ export const insertOrder = (req, res) => {
     
     db.query(q, [values], (err, data) => {
       if (err || data.affectedRows == 0) return res.status(500).json(err);
-      const id = data.insertId;      
+      const id = data.insertId;
       const qItem = "INSERT INTO order_items(`order_id`, `item_id`, `cat`, `quatity`, `list_price`, `discount`) VALUES (?)";
       for(var item of req.body.items){
         const item_values = [
@@ -70,7 +71,7 @@ export const updateOrder = (req, res) => {
   const token = req.cookies.staff_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
-  jwt.verify(token, "jwtkey", (err, adminInfo) => {
+  jwt.verify(token, "jwtkey", (err, staffInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
     const q =
       "UPDATE orders SET `order_status`= 1 WHERE id = ?";

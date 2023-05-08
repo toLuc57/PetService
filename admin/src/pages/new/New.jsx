@@ -4,28 +4,45 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
+
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [rightItems, setRightItems] = useState([
-      {"key": 1, "value": "Item 1"},
-      {"key": 2, "value": "Item 2"},
-      {"key": 3, "value": "Item 3"},
-      {"key": 4, "value": "Item 4"},
-      {"key": 5, "value": "Item 5"},
+      {"id": 1, "name": "Item 1"},
+      {"id": 2, "name": "Item 2"},
+      {"id": 3, "name": "Item 3"},
+      {"id": 4, "name": "Item 4"},
+      {"id": 5, "name": "Item 5"},
   ]);
   const [leftItems, setLeftItems] = useState([]);
+  const serviceColumns = [
+    { 
+      field: "id", 
+      headerName: "ID", 
+      width: 50,
+      renderCell: (param) => {
+        return (
+          <div onClick={() => handleAdd(param.row.id)}>{param.row.id}</div>
+        )
+      }},
+    { 
+      field: "name", 
+      headerName: "Name", 
+      width: 230,
+      renderCell: (param) => {
+        return (
+          <div onClick={() =>handleAdd(param.row.id)}>{param.row.name}</div>
+        )}
+    }
+  ];
 
-  const handSelect = () => {
-    var key = document.getElementById("selectItems").value;
-    handleAdd(key);
-  }
-
-  const handleAdd = (key) => {
-      var item = rightItems.find(((i) => i.key == key)); 
+  const handleAdd = (id) => {
+      var item = rightItems.find(((i) => i.id == id)); 
       var isUnderfined = true;
       for(var i of leftItems){
-          if(i.key != item.key) 
+          if(i.id != item.id) 
               continue;
           
           if(i.quantity != null){
@@ -44,8 +61,8 @@ const New = ({ inputs, title }) => {
       }
       console.log(leftItems);
   }
-  const handleDelete = (key) =>{
-      var item = leftItems.find(((i) => i.key == key));
+  const handleDelete = (id) =>{
+      var item = leftItems.find(((i) => i.id == id));
       var isGreaterOne = item.quantity > 1;
       if(isGreaterOne){
           item.quantity -= 1;
@@ -53,7 +70,7 @@ const New = ({ inputs, title }) => {
           setLeftItems(leftItems.filter((i) => i.action == null));
       }
       else {
-          setLeftItems(leftItems.filter((i) => i.key != key));
+          setLeftItems(leftItems.filter((i) => i.id != id));
       }
       console.log(leftItems);
   }
@@ -96,9 +113,16 @@ const New = ({ inputs, title }) => {
                 />
               </div>}
               {inputs.map((input) => (
-                <div className="formInput" key={input.id}>
+                <div className="formInput" id={input.id}>
                   <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  {input.type !== "select"
+                    ? <input type={input.type} placeholder={input.placeholder} />
+                    : <select>
+                      {input.items.map((i)=>(
+                        <option value={i.id}>{i.name}</option>
+                      ))}
+                    </select>
+                  }
                 </div>
               ))}
               {cat === "orders" &&
@@ -106,23 +130,25 @@ const New = ({ inputs, title }) => {
                   <label>Items</label>
                   <div className="widgets">
                     <div className="formInput">                    
-                      <select id="selectItems" name="items" onChange={handSelect}>
-                        {rightItems.map((item)=>(
-                          <option value={item.key}>{item.value}</option>
-                        ))}
-                      </select>
+                      <DataGrid
+                        className="datagrid"
+                        rows={rightItems}
+                        columns={serviceColumns}
+                        pageSize={3}
+                        rowsPerPageOptions={[3]}
+                      />
                     </div>
                     <div className="orderItems">                    
                       <ul>
                         {leftItems.map((item) => (
-                          <li data-order={item.key}>
+                          <li data-order={item.id}>
                             <div className="leftItem">
-                                <span>Name: {item.value}</span>
+                                <span>{item.name}</span>
                             </div>
                             <div className="rightItem">
-                                <span onClick={() => handleDelete(item.key)}>-</span>
+                                <span onClick={() => handleDelete(item.id)}>-</span>
                                 <span>{item.quantity}</span>
-                                <span onClick={() => handleAdd(item.key)}>+</span>
+                                <span onClick={() => handleAdd(item.id)}>+</span>
                             </div>                                
                           </li>                        
                         ))}

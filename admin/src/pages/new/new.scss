@@ -32,7 +32,7 @@
       }
 
       .right {
-        flex: 2;
+        flex: 4;
 
         form {
           display: flex;
@@ -53,7 +53,7 @@
               }
             }
 
-            input {
+            input, select {
               width: 100%;
               padding: 5px;
               border: none;
@@ -83,15 +83,10 @@
               gap: 10px;
 
               .formInput{
-                flex: 1;
+                flex: 3;
                 margin-left: 10px;
-
-                select {
-                  width: 100%;
-                  padding: 5px;
-                  border: none;
-                  border-bottom: 1px solid gray;
-                }
+                height: 300px;
+                
               }            
   
               .orderItems{ 

@@ -1,5 +1,4 @@
 import { db } from "../db.js";
-import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const getStaffs = (req, res) => {
@@ -53,29 +52,21 @@ export const updateStaff = (req, res) => {
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, staffInfo) => {
-    if (err) return res.status(403).json("Token is not valid!");
-    // Check staff has authenticated
-    const q = "SELECT * FROM staff WHERE `id` = ? and `status` = 3";
+    if (err || staffInfo.status != 3) return res.status(403).json("Token is not valid!");
+    
+    const q =
+      "UPDATE staff SET `name`=?,`phone`=?,`gender`=?,`CMND/CCCD`=? WHERE `id` = ?";
 
-    db.query(q, [staffInfo.id], (err, data) => {
-      if (err) return res.status(500).json(err);
-      if (data.length === 0) return res.status(404).json("Staff not found!");
+    const values = [
+      req.body.name, 
+      req.body.phone, 
+      req.body.gender,
+      req.body.code,
+    ];
 
-      const userId = req.params.id;
-      const q =
-        "UPDATE staff SET `name`=?,`phone`=?,`gender`=?,`CMND/CCCD`=? WHERE `id` = ?";
-
-      const values = [
-        req.body.name, 
-        req.body.phone, 
-        req.body.gender,
-        req.body.code,        
-        userInfo.id];
-
-      db.query(q, [...values, userId, userInfo.id], (err, data) => {
-        if (err || data.affectedRows == 0) return res.status(500).json(err);
-        return res.json("Staff has been updated.");
-      });
-    });    
+    db.query(q, [...values, req.params.id, staffInfo.id], (err, data) => {
+      if (err || data.affectedRows == 0) return res.status(500).json(err);
+      return res.json("Staff has been updated.");
+    });
   });
 };

@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const login = (req, res) => {
-  //CHECK ADMIN
-  const q = "SELECT * FROM account WHERE username = ? AND `status` = 1";
+  //CHECK STAFF IS ACTIVE
+  const q = "SELECT * FROM account WHERE username = ? AND `status` > 0";
 
   db.query(q, [req.body.username], (err, data) => {
     if (err) return res.status(500).json(err);
@@ -19,7 +19,7 @@ export const login = (req, res) => {
     if (!isPasswordCorrect)
       return res.status(400).json("Wrong username or password!");
 
-    const token = jwt.sign({ id: data[0].id }, "jwtkey");
+    const token = jwt.sign({ id: data[0].id, status: data[0].status }, "jwtkey");
     const { password, ...other } = data[0];
 
     res
