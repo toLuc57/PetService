@@ -5,7 +5,9 @@ import postRoutes from "./routes/post.js";
 import serviceRoutes from "./routes/service.js";
 import revenueRoutes from "./routes/revenue.js";
 import orderRoutes from "./routes/order.js";
-import adminRoutes from "./routes/admin.js";
+import accountRoutes from "./routes/account.js";
+import staffRoutes from "./routes/staff.js";
+import customerRoutes from "./routes/customer.js";
 import cookieParser from "cookie-parser";
 import multer from "multer";
 
@@ -33,9 +35,11 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/services", serviceRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/account", accountRoutes);
 app.use("/api/revenue", revenueRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/staff", staffRoutes);
+app.use("/api/customer", customerRoutes);
 
 app.listen(8800, () => {
   console.log("Connected!");

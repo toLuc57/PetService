@@ -259,3 +259,48 @@ export const serviceRows = [
     weight: 65,
   },
 ];
+
+export const orderColumns = [
+  { field: "id", headerName: "ID", width: 70 },
+  {
+    field: "customer_id",
+    headerName: "Customer Id",
+    width: 140,
+  },
+  {
+    field: "staff_id",
+    headerName: "Staff Id",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <div>
+          {params.row.staff_id}
+        </div>
+      );
+    },
+  },
+  {
+    field: "room_id",
+    headerName: "Room Id",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <div>
+          {params.row.room_id ? params.row.room_id :"Not filled out"}
+        </div>
+      );
+    },
+  },
+  {
+    field: "order_status",
+    headerName: "Status",
+    width: 160,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.order_status == 1 ? "active" : "passive"}`}>
+          {params.row.order_status == 1 ? "Paid" : "Unpaid"}
+        </div>
+      );
+    },
+  },
+];

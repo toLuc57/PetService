@@ -74,4 +74,18 @@ export const userInputs = [
       placeholder: "in stock",
     },
   ];
-  
+
+  export const orderInputs = [
+    {
+      id: 1,
+      label: "Customer",
+      type: "text",
+      placeholder: "John Doe",
+    },
+    {
+      id: 2,
+      label: "Room",
+      type: "text",
+      placeholder: "Phòng 201",
+    },
+  ];

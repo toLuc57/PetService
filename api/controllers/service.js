@@ -25,7 +25,7 @@ export const getService = (req, res) => {
 };
 
 export const addService = (req, res) => {
-  const token = req.cookies.admin_token;
+  const token = req.cookies.staff_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, adminInfo) => {
@@ -51,7 +51,7 @@ export const addService = (req, res) => {
 };
 
 export const deleteService = (req, res) => {
-  const token = req.cookies.admin_token;
+  const token = req.cookies.staff_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, adminInfo) => {
@@ -70,7 +70,7 @@ export const deleteService = (req, res) => {
 };
 
 export const updateService = (req, res) => {
-  const token = req.cookies.admin_token;
+  const token = req.cookies.staff_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, adminInfo) => {

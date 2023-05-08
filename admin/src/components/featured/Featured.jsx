@@ -29,9 +29,9 @@ const Featured = () => {
         <MoreVertIcon fontSize="small" />
       </div>
       <div className="bottom">
-        <div className="featuredChart">
+        {/* <div className="featuredChart">
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
-        </div>
+        </div> */}
         <p className="title">Total sales made today</p>
         <p className="amount">${data.Total ? data.Total : 0}</p>
         {/* <p className="desc">

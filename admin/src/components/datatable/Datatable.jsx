@@ -2,7 +2,9 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { 
   userColumns,
-  serviceColumns } 
+  serviceColumns,
+  orderColumns,
+} 
   from "../../datatablesource";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -52,9 +54,11 @@ const Datatable = ({type}) => {
         case 'services':
           setColumns(serviceColumns.concat(actionColumn));
           break;
-        case 'products':
-          setColumns(serviceColumns.concat(actionColumn));          
-          break;
+        // case 'products':
+        //   setColumns(productColumns.concat(actionColumn));          
+        //   break;
+        case 'orders':
+          setColumns(orderColumns.concat(actionColumn));
         default:
           break;
       }
@@ -82,6 +86,12 @@ const Datatable = ({type}) => {
       db = {
         datatableTitle: "Add New Product",
         linkName: "Add Product"
+      }
+      break;
+    case 'orders':
+      db = {
+        datatableTitle: "Add New Order",
+        linkName: "Add Order"
       }
       break;
     default:

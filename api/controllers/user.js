@@ -25,14 +25,13 @@ export const getUser = (req, res) => {
 };
 
 export const deleteUser = (req, res) => {
-  const token = req.cookies.admin_token;
+  const token = req.cookies.staff_token;
   if (!token) return res.status(401).json("Not authenticated!");
 
   jwt.verify(token, "jwtkey", (err, adminInfo) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const id = req.params.id;
-    console.log(id);
     const q = "UPDATE users SET `status` = (`status` + 1) % 2 WHERE `id` = ?";
 
     db.query(q, [id], (err, data) => {
