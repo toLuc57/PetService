@@ -1,7 +1,3 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-
-
 export const userInputs = [
     {
       id: 1,
@@ -79,16 +75,6 @@ export const userInputs = [
     },
   ];
 
-  const [rooms, setRooms] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async()=>{
-      var res = await axios.get(`room?status=1`);
-      setRooms(res.data);
-    }
-    fetchData();
-  }, [type]);
-
   export const orderInputs = [
     {
       id: 1,
@@ -100,6 +86,15 @@ export const userInputs = [
       id: 2,
       label: "Room",
       type: "select",
-      items: rooms,
+      items: [
+        {"id": 1, "name": "Room 1012"}
+      ]
+    },
+    {
+      id: 3,
+      label: "Weight",
+      type: "number",
+      step: 0.1,
+      min: 0,
     },
   ];

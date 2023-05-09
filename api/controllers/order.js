@@ -24,7 +24,7 @@ export const getOrder = (req, res) => {
       "select * from order_items where order_id = ?";
       db.query(qOrderItems, [req.params.id], (err, data) => {
         if (err) return res.status(500).json(err);
-        result.items = data;   
+        result.items = data;
         return res.status(200).json(result); 
       });
     });

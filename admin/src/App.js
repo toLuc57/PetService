@@ -10,50 +10,62 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 
 function App() {
-  const { darkMode } = useContext(DarkModeContext);
+  const { darkMode, currentAdmin } = useContext(DarkModeContext);
 
   return (
     <div className={darkMode ? "app dark" : "app"}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/">
-            <Route index element={<Home />} />
+      {currentAdmin ? 
+        <BrowserRouter>
+          <Routes>
+            <Route path="/">
+              <Route index element={<Home />} />
+              <Route path="login" element={<Login />} />
+              <Route path="users">
+                <Route index element={<List type="users"/>} />
+                <Route path=":id" element={<Single />} />
+                <Route
+                  path="new"
+                  element={<New inputs={userInputs} title="Add New User" />}
+                />
+              </Route>
+              <Route path="services">
+                <Route index element={<List type="services"/>} />
+                <Route path=":id" element={<Single />} />
+                <Route
+                  path="new"
+                  element={<New inputs={userInputs} title="Add New Service" />}
+                />
+              </Route>
+              <Route path="products">
+                <Route index element={<List type="products"/>} />
+                <Route path=":id" element={<Single />} />
+                <Route
+                  path="new"
+                  element={<New inputs={productInputs} title="Add New Product" />}
+                />
+              </Route>
+              <Route path="orders">
+                <Route index element={<List type="orders"/>} />
+                <Route path=":id" element={<Single />} />
+                <Route
+                  path="new"
+                  element={<New inputs={orderInputs} title="Add New Order" />}
+                />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        :
+        <BrowserRouter>
+          <Routes>
+            <Route path="/">
+            <Route index element={<Login />} />
             <Route path="login" element={<Login />} />
-            <Route path="users">
-              <Route index element={<List type="users"/>} />
-              <Route path=":id" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={userInputs} title="Add New User" />}
-              />
             </Route>
-            <Route path="services">
-              <Route index element={<List type="services"/>} />
-              <Route path=":id" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={userInputs} title="Add New Service" />}
-              />
-            </Route>
-            <Route path="products">
-              <Route index element={<List type="products"/>} />
-              <Route path=":id" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
-            </Route>
-            <Route path="orders">
-              <Route index element={<List type="orders"/>} />
-              <Route path=":id" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={orderInputs} title="Add New Order" />}
-              />
-            </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      }
+      
     </div>
   );
 }

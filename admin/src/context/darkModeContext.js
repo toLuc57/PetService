@@ -16,12 +16,12 @@ export const DarkModeContextProvider = ({ children }) => {
     );
 
   const login = async(inputs)=>{
-      const res = await axios.post("admin/login", inputs);
+      const res = await axios.post("account/login", inputs);
       setCurrentAdmin(res.data);
   };
 
   const logout = async()=>{
-      await axios.post("admin/logout");
+      await axios.post("account/logout");
       setCurrentAdmin(null);
   };
 

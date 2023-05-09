@@ -44,22 +44,20 @@ export const addService = (req, res) => {
     if (err) return res.status(403).json("Token is not valid!");
 
     const q =
-      "INSERT INTO services(`name`, `desc`, `img`, `cat`, `requirement`,`status`) VALUES (?)";
+      "INSERT INTO services(`name`, `desc`, `img`, `cat`) VALUES (?)";
 
     const values = [
       req.body.name,
       req.body.desc,
       req.body.img,
-      req.body.cat,
-      req.body.requirement,
-      req.body.status,
+      req.body.cat
     ];
     
     db.query(q, [values], (err, data) => {
       if (err || data.affectedRows == 0) return res.status(500).json(err);
       const id = data.insertId;
       const qItem = "INSERT INTO attribute_value(`service_id`, `attribute_id`, `price`, `size`) VALUES (?)";
-      for(var item of req.body.items){
+      for(var item of req.body.attr){
         const item_values = [
           id,
           item.attribute_id,

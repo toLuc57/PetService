@@ -2,10 +2,11 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
-
+import axios from "axios";
+import { DarkModeContext } from "../../context/darkModeContext";
 
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
@@ -17,6 +18,36 @@ const New = ({ inputs, title }) => {
       {"id": 5, "name": "Item 5"},
   ]);
   const [leftItems, setLeftItems] = useState([]);
+  const [rooms, setRooms] = useState([]);
+
+  const {currentAdmin} = useContext(DarkModeContext);
+
+  const cat = useLocation().pathname.split('/')[1];
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const fetchRoom = async() =>{
+      try {
+        const res = await axios.get(`/rooms?status=1`);
+        setRooms(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    const fetchService = async() =>{
+      try {
+        const res = await axios.get(`/services?status=1`);
+        setRightItems(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if(cat === "orders"){
+      fetchRoom();
+      fetchService();
+    }    
+  }, [cat]);
+
   const serviceColumns = [
     { 
       field: "id", 
@@ -74,8 +105,37 @@ const New = ({ inputs, title }) => {
       }
       console.log(leftItems);
   }
-
-  const cat = useLocation().pathname.split('/')[1];
+  const handleSubmit = async e =>{
+    e.preventDefault();
+    try{
+      let inputValues;
+      switch(cat){
+        case "orders":
+          const resCustomer = await axios.post(`/customer`, {"name": document.getElementById("Customer").value});
+          inputValues = {
+            "customer_id": resCustomer.data.id,
+            "staff_id": currentAdmin.id,
+            "weight": document.getElementById("Weight").value,
+            "room_id": document.getElementById("Room").value,
+            "items": leftItems,
+        };
+          break;
+        case "services":
+          break;
+        case "users":
+          break;
+        default:
+          break; 
+      }
+      console.log(inputValues);
+      await axios.post(`/${cat}`, inputValues);
+      navigate(`/${cat}`);
+      window.alert("Insert successfully");
+    } catch (error) {
+      window.alert("Error");
+      console.log(error);
+    }
+  }
 
   return (
     <div className="new">
@@ -116,10 +176,10 @@ const New = ({ inputs, title }) => {
                 <div className="formInput" id={input.id}>
                   <label>{input.label}</label>
                   {input.type !== "select"
-                    ? <input type={input.type} placeholder={input.placeholder} />
+                    ? <input type={input.type} id={input.label} placeholder={input.placeholder} step={input.step} min={input.min}/>
                     : <select>
-                      {input.items.map((i)=>(
-                        <option value={i.id}>{i.name}</option>
+                      {rooms.map((i)=>(
+                        <option id={input.label} value={i.id}>{i.name}</option>
                       ))}
                     </select>
                   }
@@ -157,7 +217,7 @@ const New = ({ inputs, title }) => {
                   </div>
                 </div>
               }
-              <button className="submit">Send</button>
+              <button className="submit" onClick={handleSubmit}>Send</button>
             </form>
           </div>
         </div>
