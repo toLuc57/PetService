@@ -82,3 +82,19 @@ export const updateOrder = (req, res) => {
     })
   })
 }
+
+export const deleteOrder = (req, res) => {
+  const token = req.cookies.staff_token;
+  if (!token) return res.status(401).json("Not authenticated!");
+
+  jwt.verify(token, "jwtkey", (err, staffInfo) => {
+    if (err) return res.status(403).json("Token is not valid!");
+    const q =
+      "UPDATE orders SET `order_status`= 1 WHERE id = ?";
+
+    db.query(q, [req.params.id], (err, data) => {
+      if(err || data.affectedRows == 0) return res.status(500).json(err);
+      return res.json("Order has been updated.");
+    })
+  })
+}

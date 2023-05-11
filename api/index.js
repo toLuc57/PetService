@@ -40,7 +40,7 @@ app.use("/api/account", accountRoutes);
 app.use("/api/revenue", revenueRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/staff", staffRoutes);
-app.use("/api/customer", customerRoutes);
+app.use("/api/customers", customerRoutes);
 app.use("/api/rooms", roomRoutes);
 
 app.listen(8800, () => {

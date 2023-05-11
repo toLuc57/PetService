@@ -1,12 +1,16 @@
 import express from "express";
 import { 
     getCustomers,
-    insertCustomers,
+    insertCustomer,
+    updateCustomer,
+    deleteCustomer,
 } from "../controllers/customer.js";
 
 const router = express.Router();
 
 router.get("/", getCustomers);
-router.post("/", insertCustomers);
+router.post("/", insertCustomer);
+router.put("/:id", updateCustomer);
+router.delete("/:id", deleteCustomer);
 
 export default router;

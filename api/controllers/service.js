@@ -3,13 +3,61 @@ import jwt from "jsonwebtoken";
 
 export const getServices = (req, res) => {
   const q = req.query.status
-    ? "SELECT * FROM services WHERE status=?"
-    : "SELECT * FROM services";
-    
+    ? "SELECT * from attribute_value as attr_v" +
+      "JOIN services as s ON attr_v.service_id = s.id " +
+      "WHERE s.status = ?"
+    : "SELECT * from attribute_value as attr_v " +
+      "JOIN services as s ON attr_v.service_id = s.id ";
   db.query(q, [req.query.status], (err, data) => {
+    var result = [];
+    var oldService, oldAttr, value;
     if (err) return res.status(500).send(err);
-
-    return res.status(200).json(data);
+    for(var record of data){
+      if(oldService != record.service_id){
+        oldService = record.service_id;
+        oldAttr = record.attribute_id;
+        value = {
+          "id": record.service_id,
+          "name": record.name,
+          "img": record.img,
+          "desc": record.desc,
+          "cat": record.cat,
+          "status": record.status,
+          "attr": [
+            {
+              "attribute_id": record.attribute_id, 
+              "price": record.price, 
+              "weight": record.size,
+            }
+            // {"attribute_id": record.attribute_id, 
+            // "values": [
+            //   {"price": record.price, "weight": record.size},
+            // ],}
+          ]
+        }
+        result = value != null ? result.concat(value) : [];
+        continue;
+      }
+      value.attr = value.attr.concat({
+        "attribute_id": record.attribute_id, 
+        "price": record.price, 
+        "weight": record.size,
+      });
+      // console.log(value.attr.values);
+      // if(oldAttr != record.attribute_id){
+      //   oldAttr = record.attribute_id
+      //   value.attr = value.attr.concat({
+      //     "attribute_id": record.attribute_id, 
+      //     "values": [
+      //       {"price": record.price, "weight": record.size},
+      //     ],
+      //   });
+      // }
+      // else {
+      //   // value.attr.values = value.attr.values.concat({"price": record.price, "weight": record.size});
+      // }
+    }
+    return res.status(200).json(result);
   });
 };
 
@@ -19,7 +67,7 @@ export const getService = (req, res) => {
     "SELECT * FROM services WHERE id = ? ";
   db.query(q, [req.params.id], (err, dataService) => {
     if (err) return res.status(500).json(err);
-    if (dataService.affectedRows == 0) return res.status(500).json("Not found!");
+    if (dataService[0] == null) return res.status(500).json("Not found!");
     
     result = dataService[0];
     const qValue = 
@@ -30,7 +78,7 @@ export const getService = (req, res) => {
     db.query(qValue, [req.params.id], (err, dataValues) =>{
       if (err) return res.status(500).json(err);
       result.attr = dataValues;
-      return res.status(200).json(result);  
+      return res.status(200).json(result);
     });
         
   });

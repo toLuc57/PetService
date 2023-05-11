@@ -304,3 +304,55 @@ export const orderColumns = [
     },
   },
 ];
+
+export const customerColumns = [
+  { field: "id", headerName: "ID", width: 70 },
+  {
+    field: "name",
+    headerName: "Full name",
+    width: 230,
+    renderCell: (params) => {
+      var imgUrl;
+      switch(params.row.gender){
+        case "male":
+          imgUrl = "https://t4.ftcdn.net/jpg/01/20/10/39/360_F_120103906_MNhlpXOPI3xKidkvnhAhMWc7MwfktVf6.jpg";
+          break;
+        case "female":
+          imgUrl = "https://media.istockphoto.com/id/1284444739/vector/female-symbol-on-transparent-background.jpg?s=612x612&w=0&k=20&c=EK8Uhpixm-Bo-Es4bVvaGWLlJQcFAf99lCOAR04qOTk=";
+          break;
+        default: 
+          imgUrl = "https://www.citypng.com/public/uploads/preview/png-red-question-symbol-mark-icon-11664604913fofuexjtok.png"
+        break;
+      }
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={imgUrl} 
+          alt="avatar" />
+          {params.row.name}
+        </div>
+      );
+    },
+  },
+  {
+    field: "phone",
+    headerName: "Phone",
+    width: 190,
+  },
+  {
+    field: "address",
+    headerName: "Address",
+    width: 230,
+  },
+  {
+    field: "status",
+    headerName: "status",
+    width: 160,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.status == 1 ? "active" : "passive"}`}>
+          {params.row.status == 1 ? "active" : "passive"}
+        </div>
+      );
+    },
+  },
+]

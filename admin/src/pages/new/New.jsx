@@ -84,6 +84,15 @@ const New = ({ inputs, title }) => {
       if(isUnderfined){
           var i = item;
           i.quantity = 1;
+          // const fetchPrice = async e=> {
+          //   e.preventDefault();
+          //   try{             
+          //     const res = await axios.get("")
+          //   }catch (error){
+
+          //   }
+          //   fetchPrice();
+          // }
           setLeftItems(leftItems.concat(i));
       }
       else {

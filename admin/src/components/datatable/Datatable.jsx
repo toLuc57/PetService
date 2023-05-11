@@ -4,6 +4,7 @@ import {
   userColumns,
   serviceColumns,
   orderColumns,
+  customerColumns,
 } 
   from "../../datatablesource";
 import { Link } from "react-router-dom";
@@ -54,9 +55,9 @@ const Datatable = ({type}) => {
         case 'services':
           setColumns(serviceColumns.concat(actionColumn));
           break;
-        // case 'products':
-        //   setColumns(productColumns.concat(actionColumn));          
-        //   break;
+        case 'customers':
+          setColumns(customerColumns.concat(actionColumn));          
+          break;
         case 'orders':
           setColumns(orderColumns.concat(actionColumn));
         default:
@@ -82,29 +83,28 @@ const Datatable = ({type}) => {
         linkName: "Add Service"
       }
       break;
-    case 'products':
+    case 'customers':
       db = {
-        datatableTitle: "Add New Product",
-        linkName: "Add Product"
+        datatableTitle: "Add New Customer",
+        linkName: "Add Customer",
       }
       break;
     case 'orders':
       db = {
         datatableTitle: "Add New Order",
-        linkName: "Add Order"
+        linkName: "Add Order",
+        link: "new"
       }
       break;
     default:
       break;
   }
 
-  console.log(data);
-
   return (
     <div className="datatable">
       <div className="datatableTitle">
         {db.datatableTitle}
-        <Link to="new" className="link">
+        <Link to={db.link} className="link">
         {db.linkName}
         </Link>
       </div>
