@@ -2,7 +2,7 @@ import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import axios from "axios";
@@ -11,11 +11,9 @@ import { DarkModeContext } from "../../context/darkModeContext";
 const New = ({ inputs, title }) => {
   const [file, setFile] = useState("");
   const [rightItems, setRightItems] = useState([
-      {"id": 1, "name": "Item 1"},
-      {"id": 2, "name": "Item 2"},
-      {"id": 3, "name": "Item 3"},
-      {"id": 4, "name": "Item 4"},
-      {"id": 5, "name": "Item 5"},
+      {"id": 1, "name": "Item 1", "attr": "attr1", "price": 200},
+      {"id": 2, "name": "Item 1", "attr": "attr2", "price": 300},
+      {"id": 3, "name": "Item 2", "attr": "attr3", "price": 390},
   ]);
   const [leftItems, setLeftItems] = useState([]);
   const [rooms, setRooms] = useState([]);
@@ -36,8 +34,9 @@ const New = ({ inputs, title }) => {
     }
     const fetchService = async() =>{
       try {
-        const res = await axios.get(`/services?status=1`);
+        const res = await axios.get(`/items`, document.getElementById("Weight").value);
         setRightItems(res.data);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -76,14 +75,14 @@ const New = ({ inputs, title }) => {
           if(i.id != item.id) 
               continue;
           
-          if(i.quantity != null){
-              i.quantity += 1;
+          if(i.quatity != null){
+              i.quatity += 1;
               isUnderfined = false;
           }
       }
       if(isUnderfined){
           var i = item;
-          i.quantity = 1;
+          i.quatity = 1;
           // const fetchPrice = async e=> {
           //   e.preventDefault();
           //   try{             
@@ -103,9 +102,9 @@ const New = ({ inputs, title }) => {
   }
   const handleDelete = (id) =>{
       var item = leftItems.find(((i) => i.id == id));
-      var isGreaterOne = item.quantity > 1;
+      var isGreaterOne = item.quatity > 1;
       if(isGreaterOne){
-          item.quantity -= 1;
+          item.quatity -= 1;
           setLeftItems(leftItems.concat({"action": "update"}));
           setLeftItems(leftItems.filter((i) => i.action == null));
       }
@@ -120,11 +119,10 @@ const New = ({ inputs, title }) => {
       let inputValues;
       switch(cat){
         case "orders":
-          const resCustomer = await axios.post(`/customer`, {"name": document.getElementById("Customer").value});
+          const resCustomer = await axios.post(`/customers`, {"name": document.getElementById("Customer").value});
           inputValues = {
             "customer_id": resCustomer.data.id,
             "staff_id": currentAdmin.id,
-            "weight": document.getElementById("Weight").value,
             "room_id": document.getElementById("Room").value,
             "items": leftItems,
         };
@@ -216,7 +214,7 @@ const New = ({ inputs, title }) => {
                             </div>
                             <div className="rightItem">
                                 <span onClick={() => handleDelete(item.id)}>-</span>
-                                <span>{item.quantity}</span>
+                                <span>{item.quatity}</span>
                                 <span onClick={() => handleAdd(item.id)}>+</span>
                             </div>                                
                           </li>                        

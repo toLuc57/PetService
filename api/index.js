@@ -9,6 +9,7 @@ import accountRoutes from "./routes/account.js";
 import staffRoutes from "./routes/staff.js";
 import customerRoutes from "./routes/customer.js";
 import roomRoutes from "./routes/room.js";
+import itemRoutes from "./routes/item.js";
 import cookieParser from "cookie-parser";
 import multer from "multer";
 
@@ -42,6 +43,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/rooms", roomRoutes);
+app.use("/api/items", itemRoutes);
 
 app.listen(8800, () => {
   console.log("Connected!");

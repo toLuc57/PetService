@@ -51,18 +51,18 @@ export const insertOrder = (req, res) => {
       for(var item of req.body.items){
         const item_values = [
           id,
-          item.item_id,
+          item.id,
           item.cat,
           item.quatity,
-          item.list_price,
-          item.discount
+          item.price,
+          item.discount ? item.discount : 0
         ];
 
         db.query(qItem, [item_values], (err, data) => {
           if (err || data.affectedRows == 0) return res.status(500).json(err);
-          return res.status(201).json("Order has been created."); 
         })
       }
+      return res.status(201).json("Order has been created."); 
     });
   });
 };
