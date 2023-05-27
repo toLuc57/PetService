@@ -65,6 +65,15 @@ const New = ({ inputs, title }) => {
         return (
           <div onClick={() =>handleAdd(param.row.id)}>{param.row.name}</div>
         )}
+    },
+    { 
+      field: "attr_name", 
+      headerName: "Attribute", 
+      width: 230,
+      renderCell: (param) => {
+        return (
+          <div onClick={() =>handleAdd(param.row.id)}>{param.row.attr_name}</div>
+        )}
     }
   ];
 
